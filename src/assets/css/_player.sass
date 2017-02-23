@@ -1,0 +1,111 @@
+// Player top bar
+#player
+	position: fixed
+	top: 0
+	z-index: 50
+
+	width: 100%
+	height: $s_player_height
+
+	display: flex
+	justify-content: center
+
+	background: $c_player_bg
+
+
+// Track info
+#playerTrack, #playerTime
+	height: $s_player_height
+	width: 40%
+
+	padding: 0 20px
+
+	color: white
+
+	line-height: $s_player_height + 3px
+	word-wrap: nowrap
+	overflow: hidden
+
+#playerTime
+	text-align: right
+
+
+// Play / pause button
+#playerPlayPause
+	display: block
+
+	height: $s_player_button_height
+	width: $s_player_button_height
+
+	margin: 6px auto
+
+	border: 2px solid white
+	border-radius: 50%
+	color: white
+
+	line-height: $s_player_button_height - 1px
+	text-align: center
+
+	cursor: pointer
+
+
+// Seek bar below top bar
+#playerSeek
+	position: fixed
+	top: $s_player_height
+	z-index: 50
+
+	height: 5px
+	width: 100%
+
+	background: $c_player_seek_bg
+
+
+// Seek bar catchment area (so you can click a couple of px below the seek bar and still seek)
+#playerSeekArea
+	position: fixed
+	top: $s_player_height - 4px
+	z-index: 60
+
+	height: 13px
+	width: 100%
+
+	cursor: pointer
+
+
+// Filled area of seek bar
+#playerSeekFill
+	position: fixed
+	top: $s_player_height
+	z-index: 50
+
+	height: 5px
+
+	background: $c_player_seek
+	transition: all 120ms ease-in-out
+
+
+// Seeker dot of seek bar
+#playerSeeker
+	position: fixed
+	top: $s_player_height
+	z-index: 80
+
+	height: 5px
+	width: 5px
+
+	margin-left: -5px
+
+	background: $c_player_seek
+	border-radius: 50%
+
+	// opacity: 0
+	transition: all 120ms ease-in-out
+
+#playerSeek:hover #playerSeeker, #player:hover ~ #playerSeek #playerSeeker
+	top: $s_player_height - 4px
+
+	height: 13px
+	width: 13px
+
+	background: $c_player_seeker

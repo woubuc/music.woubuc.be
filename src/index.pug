@@ -5,26 +5,42 @@ html
 		meta(name='viewport' content='width=device-width,initial-scale=1')
 
 		link(rel='stylesheet' href='/assets/css/style.css')
+		link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Catamaran:400,600')
 		link(rel='stylesheet' href='https://use.fontawesome.com/5de0b86239.css')
 
-		script(src='/assets/js/knockout-3.4.1.js')
-		script(src='/assets/js/app.js')
+		script(src='/assets/js/app.min.js')
 
 	body
-		.container
-			.player
-				a.fa.fa-pause(data-bind='visible: playingStatus, click: pause')
-				a.fa.fa-play(data-bind='visible: !playingStatus(), click: play')
+		#player
 
-				div(data-bind='if: player.loadedMetadata')
-					p(data-bind='text: player.length')
+			#playerTrack(data-bind='text: library.currentTrack.title')
 
-			.playlist(data-bind='foreach: tracks')
+			a#playerPlayPause(data-bind='click: player.togglePlayPause')
+				em.fa.fa-spin.fa-circle-o-notch(data-bind='visible: player.state() == 0')
+				em.fa.fa-play(data-bind='visible: player.state() == 1 || player.state() == -1')
+				em.fa.fa-pause(data-bind='visible: player.state() == 2')
+
+			#playerTime(data-bind='text: player.ui.timeLabel')
+
+
+		#playerSeek
+			#playerSeekArea(data-bind='click: player.ui.onSeek')
+			#playerSeekFill(data-bind='style: {width: player.ui.timePercentage}')
+			#playerSeeker(data-bind='style: {left: player.ui.timePercentage}')
+
+
+		.container(style='margin-top:100px')
+
+
+			.playlist(data-bind='foreach: library.tracks')
 				p.item
 					em.fa.fa-volume-off()
 					em.fa.fa-volume-up()
-					a(data-bind='text: name, click: $parent.setTrack')
+					a(data-bind='text: title, click: $parent.selectTrack($index())')
 
+
+		p State:
+			em(data-bind='text: player.state')
 
 
 		script init();
