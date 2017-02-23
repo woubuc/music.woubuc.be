@@ -3,9 +3,13 @@ const plumber = require('gulp-plumber');
 
 const serve = require('gulp-serve');
 
+const merge = require('gulp-merge');
+const concat = require('gulp-concat');
+
 const pug = require('gulp-pug');
 const sass = require('gulp-sass');
 const coffee = require('gulp-coffee');
+const uglify = require('gulp-uglify');
 const imagemin = require('gulp-imagemin');
 
 // Separate tasks to compile Pug to HTML, Sass to CSS and Coffeescript to Javascript
@@ -24,18 +28,20 @@ gulp.task('sass', function() {
 		.pipe(gulp.dest('./dist'));
 });
 
-gulp.task('coffee', function() {
-	gulp.src('src/**/*.coffee')
-		.pipe(plumber())
-		.pipe(coffee({bare: true}))
-		.pipe(gulp.dest('./dist'));
+gulp.task('js', function() {
+	merge(
+		gulp.src('src/assets/js/*.coffee')
+			.pipe(plumber())
+			.pipe(coffee({bare: true}))
+	,
+		gulp.src('src/assets/js/*.js')
+			.pipe(plumber())
+	)
+		.pipe(concat('app.min.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest('./dist/assets/js'));
 });
 
-gulp.task('js', function() {
-	gulp.src('src/**/*.js')
-		.pipe(plumber())
-		.pipe(gulp.dest('./dist'));
-});
 
 gulp.task('images', function() {
 	gulp.src(['src/**/*.jpg', 'src/**/*.png', 'src/**/*.svg'])
@@ -54,13 +60,13 @@ gulp.task('serve', serve({
 }));
 
 // Wrap 'em up in one big compile task
-gulp.task('compile', ['pug', 'sass', 'coffee', 'js', 'images', 'favicons']);
+gulp.task('compile', ['pug', 'sass', 'js', 'images', 'favicons']);
 
 // And add a default task with livereload
 gulp.task('default', ['compile', 'serve'], function() {
 	gulp.watch('src/**/*.js', ['js']);
 	gulp.watch('src/**/*.pug', ['pug']);
 	gulp.watch('src/**/*.sass', ['sass']);
-	gulp.watch('src/**/*.coffee', ['coffee']);
+	gulp.watch(['src/assets/js/*.coffee', 'src/assets/js/*.js'], ['js']);
 	gulp.watch(['src/**/*.jpg', 'src/**/*.png', 'src/**/*.svg'], ['images']);
 });
