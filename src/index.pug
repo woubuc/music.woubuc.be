@@ -1,0 +1,30 @@
+doctype html
+html
+	head
+		title Music Player
+		meta(name='viewport' content='width=device-width,initial-scale=1')
+
+		link(rel='stylesheet' href='/assets/css/style.css')
+		link(rel='stylesheet' href='https://use.fontawesome.com/5de0b86239.css')
+
+		script(src='/assets/js/knockout-3.4.1.js')
+		script(src='/assets/js/app.js')
+
+	body
+		.container
+			.player
+				a.fa.fa-pause(data-bind='visible: playingStatus, click: pause')
+				a.fa.fa-play(data-bind='visible: !playingStatus(), click: play')
+
+				div(data-bind='if: player.loadedMetadata')
+					p(data-bind='text: player.length')
+
+			.playlist(data-bind='foreach: tracks')
+				p.item
+					em.fa.fa-volume-off()
+					em.fa.fa-volume-up()
+					a(data-bind='text: name, click: $parent.setTrack')
+
+
+
+		script init();
