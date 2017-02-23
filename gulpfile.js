@@ -56,7 +56,8 @@ gulp.task('favicons', function() {
 
 gulp.task('serve', serve({
 	root: ['dist'],
-	port: 8080
+	port: 8080,
+	hostname: '0.0.0.0'
 }));
 
 // Wrap 'em up in one big compile task
