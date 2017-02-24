@@ -14,7 +14,7 @@ class AudioPlayerVisualiser
 
 		@analyser = @context.createAnalyser()
 		@analyser.fftSize = @steps
-		@analyser.smoothingTimeConstant = 0.4
+		@analyser.smoothingTimeConstant = 0.6
 		@analyser.minDecibels = -80
 		@analyser.maxDecibels = 10
 
