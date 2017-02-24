@@ -1,6 +1,6 @@
 // Cover image
 #player .cover
-	height: calc(100% - 220px)
+	height: calc(100% - 224px)
 	width: 100%
 
 	background-position: center
@@ -8,7 +8,7 @@
 	background-size: cover
 
 	+query-large
-		height: 280px
+		height: 276px
 
 #player .cover::before
 	display: block
@@ -91,10 +91,13 @@
 
 // Tracker / seek bar
 #player .tracker
-	padding: 25px 40px
+	padding: 25px 30px
+
+	+query-large
+		padding: 25px 40px
 
 #player .time
-	height: 15px
+	height: 16px
 	padding-right: 1px
 
 	color: rgba(black, 0.6)
