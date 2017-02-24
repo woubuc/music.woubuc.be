@@ -62,21 +62,21 @@ class AudioPlayer
 
 
 	# Prepares a file to be played
-	loadUrl: (url) ->
+	loadTrack: (track) ->
 
 		# Don't do anything when the requested URL is already set
-		return if @audio.src is url
+		return if @audio.src is track.url
 
 		# Reset metadata properties
 		@duration(-1)
 		@position(-1)
 
 		# Set the URL
-		@audio.src = url
+		@audio.src = track.url
 
 	# Loads a file and starts playing it
 	playTrack: (@currentTrack) ->
-		@loadUrl(@currentTrack.url)
+		@loadTrack(@currentTrack)
 		@audio.play()
 
 	stop: ->
