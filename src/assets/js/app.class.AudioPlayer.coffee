@@ -4,8 +4,10 @@ class AudioPlayer
 
 		# Create audio element
 		@audio = document.createElement('audio')
+		@audio.volume = 1
 		@audio.preload = 'metadata'
 		@audio.style.display = 'none'
+		@audio.crossOrigin = 'anonymous'
 		document.body.append(@audio)
 
 
@@ -27,13 +29,13 @@ class AudioPlayer
 		@position = ko.observable(-1)
 		@positionInterval = null
 
-
 		# Subscribe to the change of play state
 		# To adjust playing state and position update interval
 		@state.subscribe (state) =>
 			if state is 'playing'
+
 				# Only set an interval when the track is actually playing
-				@positionInterval = setInterval (=> @position(@audio.currentTime)), 200
+				@positionInterval = setInterval (=> @position(@audio.currentTime)), 100
 
 				# Set playing property on track
 				@currentTrack.playing(yes) if @currentTrack?
@@ -51,6 +53,9 @@ class AudioPlayer
 
 		# Attach the UI events
 		@ui = new AudioPlayerUI(@)
+
+		# Create visualiser
+		@visualiser = new AudioPlayerVisualiser(@audio)
 
 
 

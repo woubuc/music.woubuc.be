@@ -31,6 +31,8 @@ html
 
 				.cover(data-bind='style: {backgroundImage: "url(" + library.currentTrack().image + ")"}')
 					a.back(data-bind='click: showLibrary')
+					#visualiser(data-bind='foreach: player.visualiser.data')
+						.visualiserBar(data-bind='style: {height: $data}')
 				.title(data-bind='text: library.currentTrack().title()')
 				.info(data-bind='text: library.currentTrack().instrumentsLabel')
 
@@ -46,6 +48,13 @@ html
 
 
 		#copy Icons by Icons8.com #[br]Coding &amp; music by Wouter Buckens #[br]Reproduction, distribution or commercial use of this music is not allowed
+			br
+			span(data-bind='text: player.visualiser.test')
+			//- - var i = 0
+			//- while i < 32
+			//- 	br
+			//- 	em(data-bind='text: player.visualiser.data[' + i + ']()')
+			//- 	- i++
 
 
 		script init();

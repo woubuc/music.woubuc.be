@@ -30,6 +30,10 @@ class AudioPlayerUI
 			return formatTime(@player.position()) + ' / ' + formatTime(@player.duration())
 
 
+
+
+
+
 	# Called when user clicks in the seek bar catchment area
 	onSeek: (app, evt) =>
 
