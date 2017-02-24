@@ -31,8 +31,9 @@ html
 
 				.cover(data-bind='style: {backgroundImage: "url(" + library.currentTrack().image + ")"}')
 					a.back(data-bind='click: showLibrary')
-					#visualiser(data-bind='foreach: player.visualiser.data')
-						.visualiserBar(data-bind='style: {height: $data}')
+					#visualiser(data-bind='if: player.visualiser')
+						.visualiserContents(data-bind='foreach: player.visualiser.data')
+							.visualiserBar(data-bind='style: {height: $data}')
 				.title(data-bind='text: library.currentTrack().title()')
 				.info(data-bind='text: library.currentTrack().instrumentsLabel')
 

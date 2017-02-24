@@ -54,8 +54,10 @@ class AudioPlayer
 		# Attach the UI events
 		@ui = new AudioPlayerUI(@)
 
-		# Create visualiser
-		@visualiser = new AudioPlayerVisualiser(@audio)
+		# Create visualiser if supported
+		@visualiser = null
+		if Modernizr.webaudio and Modernizr.flexbox
+			@visualiser = new AudioPlayerVisualiser(@audio)
 
 
 
