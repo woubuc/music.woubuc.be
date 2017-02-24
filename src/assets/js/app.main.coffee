@@ -19,7 +19,7 @@ formatTime = (seconds) ->
 	prefix = (number) -> if number < 10 then '0' + number else number
 
 	# Return zero if seconds is negative
-	return '00:00' if seconds < 0
+	return '--' if seconds < 0
 
 	# First, round the seconds down cause I don't want to display milliseconds
 	seconds = Math.floor(seconds)
@@ -42,6 +42,22 @@ formatTime = (seconds) ->
 	# We're not going any bigger than hours
 	# Also hours don't need to be prefixed
 	return hours + ':' + prefix(minutes) + ':' + prefix(seconds)
+
+
+# Gets the month from a month number
+monthName = (month) -> switch month
+	when 1 then 'jan'
+	when 2 then 'feb'
+	when 3 then 'mar'
+	when 4 then 'apr'
+	when 5 then 'may'
+	when 6 then 'jun'
+	when 7 then 'jul'
+	when 8 then 'aug'
+	when 9 then 'sep'
+	when 10 then 'oct'
+	when 11 then 'nov'
+	when 12 then 'dec'
 
 
 

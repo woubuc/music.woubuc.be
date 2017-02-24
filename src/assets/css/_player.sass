@@ -18,16 +18,36 @@
 	height: $s_player_height
 	width: 40%
 
-	padding: 0 20px
+	padding: 0 10px
 
 	color: white
 
-	line-height: $s_player_height + 3px
 	word-wrap: nowrap
 	overflow: hidden
 
+#playerTrack .cover, #playerTrack .title
+	display: inline-block
+
+	line-height: $s_player_height - 1px
+	vertical-align: middle
+
+#playerTrack .cover
+	width: $s_player_height - 20px
+	height: $s_player_height - 20px
+	margin-right: 12px
+
+	border-radius: 2px
+
+	background-position: center
+	background-repeat: no-repeat
+	background-size: cover
+
 #playerTime
+	padding-right: 20px
+
+	line-height: $s_player_height + 3px
 	text-align: right
+
 
 
 // Play / pause button
@@ -38,15 +58,19 @@
 	width: $s_player_button_height
 
 	margin: 6px auto
+	padding-left: 3px
 
 	border: 2px solid white
 	border-radius: 50%
 	color: white
 
-	line-height: $s_player_button_height - 1px
+	line-height: $s_player_button_height - 3px
 	text-align: center
 
 	cursor: pointer
+
+#playerPlayPause .fa-pause
+	margin-left: -2px
 
 
 // Seek bar below top bar
@@ -82,7 +106,6 @@
 	height: 5px
 
 	background: $c_player_seek
-	transition: all 120ms ease-in-out
 
 
 // Seeker dot of seek bar
@@ -99,10 +122,13 @@
 	background: $c_player_seek
 	border-radius: 50%
 
-	// opacity: 0
-	transition: all 120ms ease-in-out
+	transition: height 120ms ease-in-out, width 120ms ease-in-out, top 120ms ease-in-out
 
-#playerSeek:hover #playerSeeker, #player:hover ~ #playerSeek #playerSeeker
+// When the seeker is active (= when dragging)
+// Or when the cursor hovers over the seek bar or the player bar
+#playerSeeker.active,
+#playerSeek:hover #playerSeeker,
+#player:hover ~ #playerSeek #playerSeeker
 	top: $s_player_height - 4px
 
 	height: 13px

@@ -5,6 +5,9 @@ class AudioPlayer
 		# Create audio element
 		@audio = document.createElement('audio')
 		@audio.preload = 'metadata'
+		@audio.style.display = 'none'
+		document.body.append(@audio)
+
 
 		# Playback state
 		# -1 = stopped / unloaded
@@ -17,19 +20,27 @@ class AudioPlayer
 		@audio.addEventListener('pause', (=> @state(1)), false)
 		@audio.addEventListener('ended', (=> @state(-1)), false)
 
+
 		# Keep track of duration of the current track
 		@duration = ko.observable(-1)
 		@audio.addEventListener('durationchange', (=> @duration(@audio.duration)), false)
+
 
 		# Keep track of position by updating it at a regular pace
 		# I've opted to not use the timeupdate event because (per the spec) it doesn't fire at a consistent pace and the seek bar looked a bit "jumpy" because of that
 		@position = ko.observable(-1)
 		@positionInterval = null
 
+
+		# Subscribe to the change of play state
+		# To adjust playing state and position update interval
 		@state.subscribe (state) =>
 			if state is 2
 				# Only set an interval when the track is actually playing
 				@positionInterval = setInterval (=> @position(@audio.currentTime)), 200
+
+				# Set playing property on track
+				@currentTrack.playing(yes) if @currentTrack?
 
 			else
 				# Update the position one last time on pause/stop to get the current value, then clear the interval
@@ -38,8 +49,11 @@ class AudioPlayer
 				@position(@audio.currentTime)
 				clearInterval(@positionInterval)
 
+				# Set playing property on track
+				@currentTrack.playing(no) if @currentTrack?
 
-		# Attach UI
+
+		# Attach the UI events
 		@ui = new AudioPlayerUI(@)
 
 
@@ -58,14 +72,18 @@ class AudioPlayer
 		@audio.src = url
 
 	# Loads a file and starts playing it
-	playUrl: (url) ->
-		@loadUrl(url)
+	playTrack: (@currentTrack) ->
+		@loadUrl(@currentTrack.url)
 		@audio.play()
 
+	stop: ->
+		@currentTrack.playing(no) if @currentTrack?
+		@audio.src = ''
 
 	seekTo: (position) ->
 		return if @duration() is -1
 		return if @duration() < position
+		@position(position)
 		@audio.currentTime = position
 
 
@@ -78,7 +96,7 @@ class AudioPlayer
 		@audio.pause()
 
 	togglePlayPause: =>
-		if @state() is 2
+		if @state() in [0, 2]
 			@pause()
 		else
 			@play()

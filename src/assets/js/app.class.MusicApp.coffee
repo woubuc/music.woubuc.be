@@ -1,10 +1,15 @@
 class MusicApp
 
 	constructor: ->
-		@library = new SongLibrary(@)
+		@library = new TrackLibrary(@)
 		@player = new AudioPlayer
 
 
 	selectTrack: (track) =>
-		@library.selectedId(track)
-		@player.playUrl(@library.currentTrack().url)
+
+		# Stop playing current track (if any)
+		@player.stop()
+
+		# Start playing the new track
+		@library.selectTrack(track)
+		@player.playTrack(@library.currentTrack())

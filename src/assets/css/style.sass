@@ -7,6 +7,8 @@ $c_player_seeker: lighten($c_player_seek, 5%)
 $s_player_height: 60px
 $s_player_button_height: 48px
 
+$s_statusbar_height: 20px
+
 
 *
 	margin: 0
@@ -15,10 +17,14 @@ $s_player_button_height: 48px
 	border: none
 	box-sizing: border-box
 
+html, body
+	height: 100%
 
 body
 	font-size: 16px
-	font-family: 'Catamaran', sans-serif
+	font-family: 'Roboto', arial, sans-serif
 
 
 @import player
+@import library
+@import statusbar

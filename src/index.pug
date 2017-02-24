@@ -5,15 +5,17 @@ html
 		meta(name='viewport' content='width=device-width,initial-scale=1')
 
 		link(rel='stylesheet' href='/assets/css/style.css')
-		link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Catamaran:400,600')
+		link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500')
 		link(rel='stylesheet' href='https://use.fontawesome.com/5de0b86239.css')
 
 		script(src='/assets/js/app.min.js')
 
-	body
+	body(data-bind='event: {mousemove: player.ui.onMove, mouseup: player.ui.onDrop, keydown: player.ui.onKey}')
 		#player
 
-			#playerTrack(data-bind='text: library.currentTrack.title')
+			#playerTrack(data-bind='if: library.currentTrack() != null')
+				.cover(data-bind='style: {backgroundImage: "url(" + library.currentTrack().image + ")"}')
+				.title(data-bind='text: library.currentTrack().title()')
 
 			a#playerPlayPause(data-bind='click: player.togglePlayPause')
 				em.fa.fa-spin.fa-circle-o-notch(data-bind='visible: player.state() == 0')
@@ -26,21 +28,21 @@ html
 		#playerSeek
 			#playerSeekArea(data-bind='click: player.ui.onSeek')
 			#playerSeekFill(data-bind='style: {width: player.ui.timePercentage}')
-			#playerSeeker(data-bind='style: {left: player.ui.timePercentage}')
+			#playerSeeker(data-bind='style: {left: player.ui.timePercentage}, css: {active: player.ui.seeking}, event: {mousedown: player.ui.onDrag, mouseup: player.ui.onDrop}')
 
 
-		.container(style='margin-top:100px')
+		#library(data-bind='foreach: library.tracks')
+			.item(data-bind='click: $parent.selectTrack.bind($data, $index())')
+				.cover(data-bind='style: {backgroundImage: "url(" + image + ")"}, css: {unfinished: !finished, playing: playing}')
+					em.fa.fa-volume-up
+				p
+					span.title(data-bind='text: title')
+					span.duration(data-bind='text: durationLabel')
+				p
+					span.date(data-bind='text: date')
+					span.instruments(data-bind='text: instrumentsLabel')
 
-
-			.playlist(data-bind='foreach: library.tracks')
-				p.item
-					em.fa.fa-volume-off()
-					em.fa.fa-volume-up()
-					a(data-bind='text: title, click: $parent.selectTrack($index())')
-
-
-		p State:
-			em(data-bind='text: player.state')
+		#statusbar Distribution or commercial use of any of the music on this website is strictly forbidden.
 
 
 		script init();
