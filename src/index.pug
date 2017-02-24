@@ -19,8 +19,8 @@ html
 				.top
 					h1 My music
 					a.toPlayer(data-bind='click: showPlayer, visible: library.currentTrack')
-				.items(data-bind='foreach: library.tracks')
-					.item(data-bind='click: $parent.selectTrack.bind($data, $index())')
+				.items(data-bind='foreach: library.trackList')
+					.item(data-bind='click: $parent.selectTrack.bind($data, id)')
 						.cover(data-bind='style: {backgroundImage: "url(" + image + ")"}, if: playing')
 							span.playing
 						span.title(data-bind='text: title')

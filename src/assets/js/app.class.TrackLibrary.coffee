@@ -4,14 +4,18 @@ class TrackLibrary
 
 		# Load tracks into observable array
 		@tracks = ko.observableArray([])
-		@tracks.push(new Track(trackData)) for trackData in window.tracks
+		for trackData in window.tracks
+			track = new Track(trackData)
+			track.id = @tracks().length
+			@tracks.push(track)
 
 		# Sort tracks by date (reverse chronological order)
-		@tracks.sort (a, b) ->
-			if b.year is a.year
-				return b.month - a.month
-			else
-				return b.year - a.year
+		@trackList = ko.pureComputed =>
+			@tracks().concat().sort (a, b) ->
+				if b.year is a.year
+					return b.month - a.month
+				else
+					return b.year - a.year
 
 		# Keep track of current track
 		@currentTrackId = ko.observable(null)
