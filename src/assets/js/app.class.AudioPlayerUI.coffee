@@ -26,7 +26,8 @@ class AudioPlayerUI
 
 		# Make a nicely formatted label with the current position and the duration
 		@timeLabel = ko.pureComputed =>
-			return '-- / --' if @player.duration() is -1 or @player.state() is 'stopped'
+			return '-- / --' if @player.duration() is -1
+			return '-- / ' + formatTime(@player.duration()) if @player.state() is 'stopped'
 			return formatTime(@player.position()) + ' / ' + formatTime(@player.duration())
 
 
