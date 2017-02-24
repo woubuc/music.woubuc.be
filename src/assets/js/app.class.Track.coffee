@@ -11,7 +11,7 @@ class Track
 		@url = trackData.url
 		@image = trackData.image
 		@instruments = trackData.instruments
-		@instrumentsLabel = (if @instruments.length > 3 then @instruments.slice(0, 3) else @instruments).join(', ')
+		@instrumentsLabel = @instruments.join(', ')
 
 		@finished = if trackData.finished? then trackData.finished else yes
 

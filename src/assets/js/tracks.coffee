@@ -44,8 +44,8 @@ window.tracks = [
 	instruments: ['piano']
 ,
 	title: 'Turn Back'
-	year: 2013
-	month: 4
+	year: 2012
+	month: 12
 	url: 'https://files.woubuc.be/music/turn-back.mp3'
 	image: 'https://files.woubuc.be/music/turn-back.jpg'
 	instruments: ['synth', 'guitar', 'strings']
@@ -55,5 +55,12 @@ window.tracks = [
 	month: 8
 	url: 'https://files.woubuc.be/music/the-weeping-willow.mp3'
 	image: 'https://files.woubuc.be/music/the-weeping-willow.jpg'
-	instruments: ['piano', 'strings', 'clarinet', 'xylophone', 'harp']
+	instruments: ['piano', 'strings', 'clarinet', 'glockenspiel', 'harp']
+,
+	title: 'Strangers'
+	year: 2013
+	month: 3
+	url: 'https://files.woubuc.be/music/strangers/strangers.mp3'
+	image: 'https://files.woubuc.be/music/strangers/banner.jpg'
+	instruments: ['strings', 'piano', 'glockenspiel', 'tambourine']
 ]

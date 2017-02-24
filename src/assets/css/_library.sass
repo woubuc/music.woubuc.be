@@ -1,41 +1,49 @@
-// Library container
-// With padding so the content doesn't get hidden behind the fixed elements
-#library
+#library .top
 	display: flex
-	flex-wrap: wrap
-	justify-content: center
-	align-items: stretch
 
-	padding-top: $s_player_height + 15px
-	padding-bottom: $s_statusbar_height
+	height: 50px
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)
 
+#library h1
+	flex-grow: 1
 
-// A track in the library
-// No height is set because that is defined by the content
-// Flexbox will stretch the items to all be the same height
-#library .item
-	width: 220px
+	height: 50px
+	padding: 0 15px
 
-	padding: 20px
-	padding-bottom: 12px
-	margin: 10px 0
+	line-height: 50px
+	text-align: left
+	font-size: 20px
+	font-weight: 400
 
-	border-radius: 4px
-	background: transparent
+#library a.toPlayer
+	display: block
 
+	height: 50px
+	width: 50px
+
+	background: url('/assets/icon_player.png') no-repeat center
 	cursor: pointer
 
-#library .item:hover
-	background: #eee
+
+#library .items
+	height: calc(100% - 51px)
+	overflow: auto
 
 
+#library .item
+	display: flex
+	align-items: center
 
-// The cover image
+	width: 100%
+	padding: 15px
+
+	border-bottom: 1px solid #eee
+	cursor: pointer
+
+
 #library .cover
-	width: 180px
-	height: 180px
-
-	margin-bottom: 8px
+	width: 48px
+	height: 48px
 
 	background-position: center
 	background-repeat: no-repeat
@@ -43,82 +51,26 @@
 
 	border-radius: 3px
 
-// "Unfinished" badge in the top right corner of the cover image
-#library .cover.unfinished::before
-	display: block
-	float: right
-	content: 'Unfinished'
-
-	margin: 4px
-	padding: 1px 4px
-
-	color: black
-	background: rgba(white, 0.5)
-	border-radius: 2px
-
-	font-size: 12px
-	font-weight: 500
-
-// "Playing" icon
-#library .cover em
-	display: none
-
-#library .cover.playing em
+#library .playing
 	display: block
 
 	position: relative
-	top: 138px
-	left: 138px
+	top: 10px
+	left: 34px
 
-	width: 32px
-	height: 32px
+	width: 30px
+	height: 30px
 
-	color: white
-	border: 2px solid white
+	background: white url('/assets/icon_playing.png') no-repeat center
 	border-radius: 50%
 
-	line-height: 28px
-	text-align: center
-
-
-#library p
-	display: flex
-	padding: 0 4px
-
-#library p span
-	flex-grow: 1
-	display: inline-block
-	vertical-align: baseline
 
 #library .title
-	font-weight: 500
-	font-size: 14px
-	white-space: nowrap
-	overflow: hidden
+	flex-grow: 1
+	padding: 0 16px
 
-#library .title::before
-	display: block
-	content: ''
+	text-align: left
 
-	float: right
-	position: relative
-	z-index: 10
-
-	width: 20px
-	height: 100%
-
-	background: rgba(white,0)
-	background: linear-gradient(to right, rgba(white, 0) 0%, rgba(white, 1) 100%)
-
-#library .item:hover .title::before
-	background: linear-gradient(to right, rgba(#eee, 0) 0%, rgba(#eee, 1) 100%)
-
-
-#library .duration, #library .instruments
-	font-size: 14px
+#library .date
 	color: rgba(black, 0.6)
-	text-align: right
-
-#library .date, #library .instruments
-	color: rgba(black, 0.6)
-	font-size: 11px
+	font-size: 13px

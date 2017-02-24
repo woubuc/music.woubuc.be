@@ -3,6 +3,7 @@ html
 	head
 		title Music Player
 		meta(name='viewport' content='width=device-width,initial-scale=1')
+		meta(name='robots' content='noindex,nofollow')
 
 		link(rel='stylesheet' href='/assets/css/style.css')
 		link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,500')
@@ -11,38 +12,40 @@ html
 		script(src='/assets/js/app.min.js')
 
 	body(data-bind='event: {mousemove: player.ui.onMove, mouseup: player.ui.onDrop, keydown: player.ui.onKey}')
-		#player
 
-			#playerTrack(data-bind='if: library.currentTrack() != null')
+		#app(data-bind='css: app')
+
+			#library
+				.top
+					h1 My music
+					a.toPlayer(data-bind='click: showPlayer, visible: library.currentTrack')
+				.items(data-bind='foreach: library.tracks')
+					.item(data-bind='click: $parent.selectTrack.bind($data, $index())')
+						.cover(data-bind='style: {backgroundImage: "url(" + image + ")"}, if: playing')
+							span.playing
+						span.title(data-bind='text: title')
+						span.date(data-bind='text: date')
+
+
+			#player(data-bind='if: library.currentTrack')
+
 				.cover(data-bind='style: {backgroundImage: "url(" + library.currentTrack().image + ")"}')
+					a.back(data-bind='click: showLibrary')
 				.title(data-bind='text: library.currentTrack().title()')
+				.info(data-bind='text: library.currentTrack().instrumentsLabel')
 
-			a#playerPlayPause(data-bind='click: player.togglePlayPause')
-				em.fa.fa-spin.fa-circle-o-notch(data-bind='visible: player.state() == 0')
-				em.fa.fa-play(data-bind='visible: player.state() == 1 || player.state() == -1')
-				em.fa.fa-pause(data-bind='visible: player.state() == 2')
+				.button(data-bind='click: player.togglePlayPause, css: player.state')
 
-			#playerTime(data-bind='text: player.ui.timeLabel')
-
-
-		#playerSeek
-			#playerSeekArea(data-bind='click: player.ui.onSeek')
-			#playerSeekFill(data-bind='style: {width: player.ui.timePercentage}')
-			#playerSeeker(data-bind='style: {left: player.ui.timePercentage}, css: {active: player.ui.seeking}, event: {mousedown: player.ui.onDrag, mouseup: player.ui.onDrop}')
+				.tracker
+					.time(data-bind='text: player.ui.timeLabel')
+					.catch(data-bind='click: player.ui.onSeek')
+						.bar
+							.fill(data-bind='style: {width: player.ui.timePercentage}')
+						.seeker(data-bind='style: {left: player.ui.timePercentage}, css: {active: player.ui.seeking}, event: {mousedown: player.ui.onDrag}')
 
 
-		#library(data-bind='foreach: library.tracks')
-			.item(data-bind='click: $parent.selectTrack.bind($data, $index())')
-				.cover(data-bind='style: {backgroundImage: "url(" + image + ")"}, css: {unfinished: !finished, playing: playing}')
-					em.fa.fa-volume-up
-				p
-					span.title(data-bind='text: title')
-					span.duration(data-bind='text: durationLabel')
-				p
-					span.date(data-bind='text: date')
-					span.instruments(data-bind='text: instrumentsLabel')
 
-		#statusbar Distribution or commercial use of any of the music on this website is strictly forbidden.
+		#copy Icons by Icons8.com #[br]Coding &amp; music by Wouter Buckens #[br]Reproduction, distribution or commercial use of this music is not allowed
 
 
 		script init();

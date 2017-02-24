@@ -9,16 +9,14 @@ class AudioPlayerUI
 
 		# How far along in the song we are in %
 		@timePercentage = ko.pureComputed =>
-			return 0 if @player.duration() is -1 or @player.state() is -1
+			return 0 if @player.duration() is -1 or @player.state() is 'stopped'
 
 			# When not seeking, return the current position percentage
 			return (@player.position() / @player.duration() * 100) + '%' if not @seeking()
 
 			# Else, return percentage
-			return (@seekingCurrent() / window.innerWidth * 100) + '%'
-
-
-
+			console.log(@seekingCurrent())
+			return @seekingCurrent() + '%'
 
 
 		@timePercentageSeeker = ko.pureComputed =>
@@ -28,29 +26,25 @@ class AudioPlayerUI
 
 		# Make a nicely formatted label with the current position and the duration
 		@timeLabel = ko.pureComputed =>
-			return '-- / --' if @player.duration() is -1 or @player.state() is -1
+			return '-- / --' if @player.duration() is -1 or @player.state() is 'stopped'
 			return formatTime(@player.position()) + ' / ' + formatTime(@player.duration())
 
 
 	# Called when user clicks in the seek bar catchment area
-	onSeek: (app, evt) ->
+	onSeek: (app, evt) =>
 
 		# This should only do something when a track is playing or paused
-		return if @player.state() not in [1, 2]
+		return if @player.state() not in ['playing', 'paused']
 
-		# Figure out how far between the left and right side of the screen the user clicked in %
-		seekPercentage = evt.clientX / window.innerWidth * 100
-
-		# Figure out the position in the current track that corresponds to that percentage
-		seekPosition = @player.duration() / 100 * seekPercentage
+		# Figure out how far between the left and right side of the seek bar the user clicked in %
+		seekPosition = @player.duration() / 100 * @calculatePercentageOfSeekBar(evt.clientX)
 
 		# Seek to that position
 		@player.seekTo(seekPosition)
 
 
-
 	onDrag: (app, evt) =>
-		return if @player.state() is -1
+		return if @player.state() is 'stopped'
 
 		@seeking(yes)
 		@seekingStart(evt.clientX)
@@ -60,8 +54,7 @@ class AudioPlayerUI
 		return if not @seeking()
 
 		# Calculate position in track
-		seekPercentage = @seekingCurrent() / window.innerWidth * 100
-		seekPosition = @player.duration() / 100 * seekPercentage
+		seekPosition = @player.duration() / 100 * @seekingCurrent()
 
 		# Seek to that position
 		@player.seekTo(seekPosition)
@@ -72,7 +65,7 @@ class AudioPlayerUI
 
 	onMove: (app, evt) =>
 		return if not @seeking()
-		@seekingCurrent(evt.clientX)
+		@seekingCurrent(@calculatePercentageOfSeekBar(evt.clientX))
 
 
 
@@ -85,3 +78,11 @@ class AudioPlayerUI
 
 			# Other key events should be let through to the browser
 			else return true
+
+
+
+	calculatePercentageOfSeekBar: (clientX) ->
+		offsetFromLeftEdge = (clientX - el('app').offsetLeft - 40 + (el('app').offsetWidth / 2))
+		barWidth = (el('app').offsetWidth - 80)
+		seekPercentage = (offsetFromLeftEdge / barWidth) * 100
+		return seekPercentage

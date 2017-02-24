@@ -10,15 +10,11 @@ class AudioPlayer
 
 
 		# Playback state
-		# -1 = stopped / unloaded
-		# 0 = buffering
-		# 1 = paused
-		# 2 = playing
-		@state = ko.observable(-1)
-		@audio.addEventListener('waiting', (=> @state(0)), false)
-		@audio.addEventListener('playing', (=> @state(2)), false)
-		@audio.addEventListener('pause', (=> @state(1)), false)
-		@audio.addEventListener('ended', (=> @state(-1)), false)
+		@state = ko.observable('stopped')
+		@audio.addEventListener('waiting', (=> @state('buffering')), false)
+		@audio.addEventListener('playing', (=> @state('playing')), false)
+		@audio.addEventListener('pause', (=> @state('paused')), false)
+		@audio.addEventListener('ended', (=> @state('stopped')), false)
 
 
 		# Keep track of duration of the current track
@@ -35,7 +31,7 @@ class AudioPlayer
 		# Subscribe to the change of play state
 		# To adjust playing state and position update interval
 		@state.subscribe (state) =>
-			if state is 2
+			if state is 'playing'
 				# Only set an interval when the track is actually playing
 				@positionInterval = setInterval (=> @position(@audio.currentTime)), 200
 
@@ -88,15 +84,13 @@ class AudioPlayer
 
 
 	play: ->
-		@state(2)
 		@audio.play()
 
 	pause: ->
-		@state(1)
 		@audio.pause()
 
 	togglePlayPause: =>
-		if @state() in [0, 2]
+		if @state() in ['buffering', 'playing']
 			@pause()
 		else
 			@play()

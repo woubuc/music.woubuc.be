@@ -14,8 +14,13 @@ class TrackLibrary
 				return b.year - a.year
 
 		# Keep track of current track
+		@currentTrackId = ko.observable(null)
 		@currentTrack = ko.observable(null)
 
 
+	getTrack: (trackId) ->
+		@tracks()[trackId]
+
 	selectTrack: (trackId) ->
+		@currentTrackId(trackId)
 		@currentTrack(@tracks()[trackId])

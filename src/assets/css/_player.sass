@@ -1,137 +1,120 @@
-// Player top bar
-#player
-	position: fixed
-	top: 0
-	z-index: 50
-
+// Cover image
+#player .cover
+	height: calc(100% - 220px)
 	width: 100%
-	height: $s_player_height
-
-	display: flex
-	justify-content: center
-
-	background: $c_player_bg
-
-
-// Track info
-#playerTrack, #playerTime
-	height: $s_player_height
-	width: 40%
-
-	padding: 0 10px
-
-	color: white
-
-	word-wrap: nowrap
-	overflow: hidden
-
-#playerTrack .cover, #playerTrack .title
-	display: inline-block
-
-	line-height: $s_player_height - 1px
-	vertical-align: middle
-
-#playerTrack .cover
-	width: $s_player_height - 20px
-	height: $s_player_height - 20px
-	margin-right: 12px
-
-	border-radius: 2px
 
 	background-position: center
 	background-repeat: no-repeat
 	background-size: cover
 
-#playerTime
-	padding-right: 20px
+	+query-large
+		height: 280px
 
-	line-height: $s_player_height + 3px
-	text-align: right
+#player .cover::before
+	display: block
+	content: ''
 
+	height: 100px
+	margin-bottom: -100px
+
+	background: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4))
+
+#player a.back
+	display: block
+	float: left
+
+	height: 48px
+	width: 48px
+
+	background: url('/assets/icon_back.png') no-repeat 8px 12px
+	cursor: pointer
+
+
+// Track title and info/subtitle
+#player .title
+	padding: 0 25px
+	padding-top: 25px
+
+	font-weight: 500
+	white-space: nowrap
+	overflow: hidden
+
+#player .info
+	padding: 2px 25px
+	padding-bottom: 25px
+
+	color: rgba(black, 0.6)
+
+	font-size: 13px
+	white-space: nowrap
+	overflow: hidden
 
 
 // Play / pause button
-#playerPlayPause
+#player .button
 	display: block
 
-	height: $s_player_button_height
-	width: $s_player_button_height
+	width: 48px
+	height: 48px
+	margin: 0 auto
+
+	border-radius: 50%
+	background: #eee
+	cursor: pointer
+
+#player .button.playing
+	background: #eee url('/assets/icon_pause.png') no-repeat center
+
+#player .button.paused, #player .button.stopped
+	background: #eee url('/assets/icon_play.png') no-repeat 12px 12px
+
+
+
+// Tracker / seek bar
+#player .tracker
+	padding: 25px 40px
+
+#player .time
+	height: 15px
+	padding-right: 1px
+
+	color: rgba(black, 0.6)
+	font-size: 13px
+	text-align: right
+
+
+#player .catch
+	height: 11px
+	padding: 3px 0
+
+#player .bar
+	height: 5px
+	width: 100%
+	background: #e4e4e4
+
+#player .fill
+	height: 5px
+	background: #4D82A3
+
+
+#player .seeker
+	position: relative
+	top: -14px
+
+	height: 23px
+	width: 13px
+	margin-left: -7px
+
+#player .seeker::after
+	display: block
+	content: ''
+
+	height: 11px
+	width: 4px
 
 	margin: 6px auto
-	padding-left: 3px
 
-	border: 2px solid white
-	border-radius: 50%
-	color: white
+	background: #4D82A3
 
-	line-height: $s_player_button_height - 3px
-	text-align: center
-
-	cursor: pointer
-
-#playerPlayPause .fa-pause
-	margin-left: -2px
-
-
-// Seek bar below top bar
-#playerSeek
-	position: fixed
-	top: $s_player_height
-	z-index: 50
-
-	height: 5px
-	width: 100%
-
-	background: $c_player_seek_bg
-
-
-// Seek bar catchment area (so you can click a couple of px below the seek bar and still seek)
-#playerSeekArea
-	position: fixed
-	top: $s_player_height - 4px
-	z-index: 60
-
-	height: 13px
-	width: 100%
-
-	cursor: pointer
-
-
-// Filled area of seek bar
-#playerSeekFill
-	position: fixed
-	top: $s_player_height
-	z-index: 50
-
-	height: 5px
-
-	background: $c_player_seek
-
-
-// Seeker dot of seek bar
-#playerSeeker
-	position: fixed
-	top: $s_player_height
-	z-index: 80
-
-	height: 5px
-	width: 5px
-
-	margin-left: -5px
-
-	background: $c_player_seek
-	border-radius: 50%
-
-	transition: height 120ms ease-in-out, width 120ms ease-in-out, top 120ms ease-in-out
-
-// When the seeker is active (= when dragging)
-// Or when the cursor hovers over the seek bar or the player bar
-#playerSeeker.active,
-#playerSeek:hover #playerSeeker,
-#player:hover ~ #playerSeek #playerSeeker
-	top: $s_player_height - 4px
-
-	height: 13px
-	width: 13px
-
-	background: $c_player_seeker
+#player .seeker:hover::after
+	background: lighten(#4D82A3, 15%)
