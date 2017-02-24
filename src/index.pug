@@ -11,7 +11,7 @@ html
 
 		script(src='/assets/js/app.min.js')
 
-	body(data-bind='event: {mousemove: player.ui.onMove, mouseup: player.ui.onDrop, keydown: player.ui.onKey}')
+	body(data-bind='event: {mousemove: player.ui.onMove, touchmove: player.ui.onMoveTouch, mouseup: player.ui.onDrop, touchend: player.ui.onDrop, keydown: player.ui.onKey}')
 
 		#app(data-bind='css: app')
 
@@ -41,10 +41,10 @@ html
 
 				.tracker
 					.time(data-bind='text: player.ui.timeLabel')
-					.catch(data-bind='click: player.ui.onSeek')
+					.catch(data-bind='click: player.ui.onSeek, event: {touchstart: player.ui.onDragTouch}')
 						.bar
 							.fill(data-bind='style: {width: player.ui.timePercentage}')
-						.seeker(data-bind='style: {left: player.ui.timePercentage}, css: {active: player.ui.seeking}, event: {mousedown: player.ui.onDrag}')
+						.seeker(data-bind='style: {left: player.ui.timePercentage}, css: {active: player.ui.seeking}, event: {mousedown: player.ui.onDrag, touchstart: player.ui.onDragTouch}')
 
 
 

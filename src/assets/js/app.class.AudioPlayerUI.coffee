@@ -52,10 +52,15 @@ class AudioPlayerUI
 
 		@seeking(yes)
 		@seekingStart(evt.clientX)
+		@onMove(app, evt)
+
+	onDragTouch: (app, evt) =>
+		@onDrag(app, clientX: evt.touches[0].clientX)
+		return true
 
 
 	onDrop: (app, evt) =>
-		return if not @seeking()
+		return true if not @seeking()
 
 		# Calculate position in track
 		seekPosition = @player.duration() / 100 * @seekingCurrent()
@@ -68,8 +73,12 @@ class AudioPlayerUI
 
 
 	onMove: (app, evt) =>
-		return if not @seeking()
+		return true if not @seeking()
 		@seekingCurrent(@calculatePercentageOfSeekBar(evt.clientX))
+
+	onMoveTouch: (app, evt) =>
+		@onMove(app, clientX: evt.touches[0].clientX)
+		return true
 
 
 
@@ -86,6 +95,10 @@ class AudioPlayerUI
 
 
 	calculatePercentageOfSeekBar: (clientX) ->
+		if window.innerWidth < 500
+			offset = (clientX - 40) / (window.innerWidth - 80) * 100
+			return offset
+
 		offsetFromLeftEdge = (clientX - el('app').offsetLeft - 40 + (el('app').offsetWidth / 2))
 		barWidth = (el('app').offsetWidth - 80)
 		seekPercentage = (offsetFromLeftEdge / barWidth) * 100
