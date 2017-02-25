@@ -35,6 +35,11 @@ class MusicApp
 		# If we're already playing the same track, just switch to the player
 		if track is @library.currentTrackId()
 			do @showPlayer
+
+			# If the track is stopped, play it again
+			if @player.state() is 'stopped'
+				@player.play()
+
 			return
 
 		# Stop playing current track (if any)
