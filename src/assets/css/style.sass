@@ -30,11 +30,17 @@ html, body
 	height: 100%
 
 body
-	background: url('/assets/background.jpg') no-repeat fixed center
+	background: url('/assets/background-mobile.jpg') no-repeat fixed center
 	background-size: cover
 
 	font-size: 16px
 	font-family: 'Roboto', arial, sans-serif
+
+	+query-medium
+		background-image: url('/assets/background.jpg')
+		
+	+query-large
+		background-image: url('/assets/background.jpg')
 
 
 #app
