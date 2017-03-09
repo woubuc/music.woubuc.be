@@ -8,7 +8,7 @@ class AudioPlayer
 		@audio.preload = 'metadata'
 		@audio.style.display = 'none'
 		@audio.crossOrigin = 'anonymous'
-		document.body.append(@audio)
+		document.body.appendChild(@audio)
 
 
 		# Playback state

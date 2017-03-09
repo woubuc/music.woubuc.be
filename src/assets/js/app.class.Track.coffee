@@ -27,7 +27,7 @@ class Track
 		audio = document.createElement('audio')
 		audio.preload = 'metadata'
 		audio.style.display = 'none'
-		document.body.append(audio)
+		document.body.appendChild(audio)
 
 		audio.addEventListener 'durationchange', (evt) =>
 			@duration(audio.duration)
